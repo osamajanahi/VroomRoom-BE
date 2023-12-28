@@ -1,0 +1,1 @@
+const {Whishlist} = require('../models/Wishlist');
