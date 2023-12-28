@@ -28,3 +28,13 @@ exports.user_update_put = (req, res) => {
       console.log(err);
     })
 }
+
+exports.admin_users_get = (req, res) =>{
+  User.find()
+  .then((user) => {
+      res.json({ user })
+  })
+  .catch((err) => {
+      console.log(err);
+  })
+}
