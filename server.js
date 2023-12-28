@@ -4,6 +4,7 @@ const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 require('dotenv').config()
 
+
 // connect to mongoDB
 require('./config/db')
 
