@@ -8,12 +8,11 @@ const {Wishlist} = require('../models/Wishlist');
     // Save Wish
     wish.save()
     .then((wish) => {
-      // res.redirect("/wish/index");
-      res.json({ wish})
+      res.json({wish})
     })
     .catch((err) => {
       console.log(err);
-      res.send("Please try again later!!")
+      res.send("Please try again later!")
     })
   }
   
@@ -21,8 +20,7 @@ exports.wish_delete_get = (req, res) => {
     console.log(req.query.id);
     Wish.findByIdAndDelete(req.query.id)
     .then(() => {
-      // res.redirect("/wish/index");
-      res.json({ Wish })
+      res.json({Wish})
     })
     .catch((err) => {
       console.log(err);

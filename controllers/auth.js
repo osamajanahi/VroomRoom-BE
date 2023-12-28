@@ -41,7 +41,7 @@ exports.auth_signin_post = async (req, res) => {
   
       if(!user)
       {
-        return res.json({"message": "User not found!!!"}).status(400);
+        return res.json({"message": "User not found!"}).status(400);
       }
   
       // Password Comparison
@@ -50,7 +50,7 @@ exports.auth_signin_post = async (req, res) => {
       console.log(user.password);
   
       if(!isMatched) {
-        return res.json({"message": "Password Not Matched!!"}).status(400);
+        return res.json({"message": "Password Not Matched!"}).status(400);
       }
   
       // Generate JWT
@@ -72,6 +72,6 @@ exports.auth_signin_post = async (req, res) => {
     }
     catch(err){
       console.log(err);
-      res.json({"message": "You are not loggedIn!!!"}).status(400);
+      res.json({"message": "You are not logged In!"}).status(400);
     }
   }
