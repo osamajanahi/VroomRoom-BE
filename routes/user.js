@@ -7,7 +7,7 @@ const userCtrl = require('../controllers/user');
 router.use(express.json());
 
 
-router.get('/update', userCtrl.user_update_put);
+router.post('/update', userCtrl.user_update_put);
 router.get('/profile', userCtrl.user_show_get);
 router.get('/adminUsers', userCtrl.admin_users_get);
 
