@@ -13,13 +13,13 @@ exports.user_show_get = (req, res) => {
     })
 }
 
-exports.user_update_put = (req, res) => {
+exports.user_update_push = (req, res) => {
     console.log(req.body.id);
-
+  if(req.body.password){
     let hash = bcrypt.hashSync(req.body.password, salt);
 
     req.body.password = hash;
-
+}
     User.findByIdAndUpdate(req.body.id, req.body)
     .then(({user}) => {
       res.json({user});
@@ -33,6 +33,17 @@ exports.admin_users_get = (req, res) =>{
   User.find()
   .then((user) => {
       res.json({ user })
+  })
+  .catch((err) => {
+      console.log(err);
+  })
+}
+
+exports.admin_delete_get = (req, res) =>{
+  console.log(req.query.id);
+  User.findByIdAndDelete(req.query.id)
+  .then((user) => {
+      res.json({ user });
   })
   .catch((err) => {
       console.log(err);
