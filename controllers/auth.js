@@ -3,6 +3,7 @@
 // Connect Controller with User model.
 // 
 const {User} = require("../models/User");
+const {Wishlist} = require("../models/Wishlist");
 
 const bcrypt = require("bcrypt");
 const salt = 10;
@@ -21,7 +22,10 @@ exports.auth_signup_post = (req, res) => {
     user.password = hash;
 
     user.save()
-    .then( () => {
+    .then( (newUser) => {
+      console.log(newUser._id);
+      let wishlist = new Wishlist({user: newUser._id});
+      wishlist.save();
         res.json({"message": "User Created Successfully!"});
     })
     .catch((err) => {
