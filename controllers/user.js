@@ -16,8 +16,10 @@ exports.user_show_get = (req, res) => {
 exports.user_update_put = (req, res) => {
     console.log(req.body.id);
 
+    // Create Hashed Password for User
     let hash = bcrypt.hashSync(req.body.password, salt);
 
+    // Assign user password to the hashed password
     req.body.password = hash;
 
     User.findByIdAndUpdate(req.body.id, req.body)
