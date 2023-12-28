@@ -31,7 +31,7 @@ const postRouter = require("./routes/post");
 const wishlistRouter = require("./routes/wishlist");
 const categoryRouter = require("./routes/category");
 const userRouter = require('./routes/user');
-
+const authRouter = require("./routes/auth");
 
 //------- Mount routes -------//
 // Your code goes here
@@ -41,6 +41,7 @@ app.use("/post", postRouter);
 app.use("/category", categoryRouter);
 app.use("/user", userRouter);
 app.use("/wishlist", wishlistRouter);
+app.use('/auth', authRouter);
 
 //-------------------------//
 
