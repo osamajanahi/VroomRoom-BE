@@ -1,4 +1,4 @@
-const {Whishlist} = require('../models/Wishlist');
+const {Whishlist, Wishlist} = require('../models/Wishlist');
 
   //restful API
   exports.wish_create_post = (req, res) => {
@@ -25,6 +25,29 @@ exports.wish_delete_get = (req, res) => {
       res.json({ Wish })
     })
     .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  exports.wish_edit_get = (req, res) => {
+    Wish.findById(req.query.id)
+    .then((wish) => {
+      // res.render("wish/edit", {wish});
+      res.json({wish})
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+   
+  exports.wish_update_put = (req, res) => {
+    console.log(req.body._id);
+    Wish.findByIdAndUpdate(req.body._id, req.body, {new: true})
+    .then((wish) => {
+      // res.redirect("/wish/index");
+      res.json({wish})
+    })
+    .catch(err => {
       console.log(err);
     })
   }
