@@ -1,9 +1,9 @@
-const {Whishlist} = require('../models/Wishlist');
+const {Wishlist} = require('../models/Wishlist');
 
   //restful API
   exports.wish_create_post = (req, res) => {
     console.log(req.body);
-    let wish = new Wish(req.body);
+    let wish = new Wishlist(req.body);
   
     // Save Wish
     wish.save()
