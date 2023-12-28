@@ -25,16 +25,6 @@ exports.post_index_get = (req, res) => {
 
 }
 
-exports.post_edit_get = (req, res) => {
-    Post.findById(req.query.id)
-    .then((post) => {
-        res.json({ post });
-    })
-    .catch(err => {
-        console.log(err);
-    })
-}
-
 exports.post_edit_post = (req, res) => {
     console.log(req.body._id);
     Post.findByIdAndUpdate(req.body._id, req.body, {new: true})
@@ -57,11 +47,9 @@ exports.post_delete_get = (req, res) => {
     })
 }
 
-exports.post_show_get = (req, res) => {
-    console.log(req.query.id);
+exports.post_detail_get = (req, res) => {
     Post.findById(req.query.id)
     .then((post) => {
-        // res.render("post/detail", {post})
         res.json({post})
     })
     .catch((err) => {
