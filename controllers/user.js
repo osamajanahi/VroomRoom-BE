@@ -13,7 +13,7 @@ exports.user_show_get = (req, res) => {
     })
 }
 
-exports.user_update_push = (req, res) => {
+exports.user_update_post = (req, res) => {
     console.log(req.body.id);
 
   if(req.body.password){
