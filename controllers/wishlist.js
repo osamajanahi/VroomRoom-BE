@@ -3,13 +3,15 @@ const {Wishlist} = require('../models/Wishlist');
 
 //restful API
 exports.wish_create_post = (req, res) => {
-    console.log(req.body);
-    let wish = new Wishlist(req.body);
-  
-    // Save Wish
-    wish.save()
-    .then((wish) => {
-      res.json({wish})
+    Wishlist.find()
+    .then(wish =>{
+      wish.forEach(wishlist =>{
+        // req.body.user will be input of type hidden in the frontend
+        if(wishlist.user == req.body.user){
+          wishlist.post.push(req.body.post);
+          wishlist.save();
+        }
+      })
     })
     .catch((err) => {
       console.log(err);
@@ -19,7 +21,7 @@ exports.wish_create_post = (req, res) => {
   
 exports.wish_delete_get = (req, res) => {
     console.log(req.query.id);
-    Wish.findByIdAndDelete(req.query.id)
+    Wishlist.findByIdAndDelete(req.query.id)
     .then(() => {
       res.json({Wish})
     })
@@ -29,7 +31,7 @@ exports.wish_delete_get = (req, res) => {
 }
 
 exports.wish_edit_get = (req, res) => {
-    Wish.findById(req.query.id)
+    Wishlist.findById(req.query.id)
     .then((wish) => {
       res.json({wish})
     })
@@ -40,7 +42,7 @@ exports.wish_edit_get = (req, res) => {
    
 exports.wish_update_put = (req, res) => {
     console.log(req.body._id);
-    Wish.findByIdAndUpdate(req.body._id, req.body, {new: true})
+    Wishlist.findByIdAndUpdate(req.body._id, req.body, {new: true})
     .then((wish) => {
       res.json({wish})
     })

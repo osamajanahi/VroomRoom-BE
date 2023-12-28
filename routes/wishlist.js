@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 // Require wishlist controller
 const wishlistCtrl = require('../controllers/wishlist');
-
+router.use(express.json());
 
 
 
