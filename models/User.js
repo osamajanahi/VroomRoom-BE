@@ -4,7 +4,7 @@ const userSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
     emailAddress: String,
-    phoneNumber: Number,
+    phoneNumber: String,
     password: String,
     wishlist: [{
         type: mongoose.Schema.Types.ObjectId,
