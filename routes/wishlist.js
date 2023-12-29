@@ -4,12 +4,11 @@ const express = require('express');
 const router = express.Router();
 // Require wishlist controller
 const wishlistCtrl = require('../controllers/wishlist');
-
-
+router.use(express.json());
 
 
 router.post("/add",  wishlistCtrl.wish_create_post);
-router.delete("/delete", isLoggedIn, Cntrl.wish_delete_get);
+router.delete("/delete", wishlistCtrl.wish_delete_get); // isLoggedIn,
 router.get("/edit", wishlistCtrl.wish_edit_get);
 router.put("/update",wishlistCtrl.wish_update_put);
 

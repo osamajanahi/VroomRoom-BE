@@ -4,6 +4,14 @@ const express = require('express');
 const router = express.Router();
 // Require user controller
 const userCtrl = require('../controllers/user');
+router.use(express.json());
+
+
+router.post('/update', userCtrl.user_update_post);
+router.get('/profile', userCtrl.user_show_get);
+router.get('/adminUsers', userCtrl.admin_users_get);
+router.post('/adminUpdate', userCtrl.user_update_post);
+router.get('/adminDelete', userCtrl.admin_delete_get);
 
 
 module.exports = router;
