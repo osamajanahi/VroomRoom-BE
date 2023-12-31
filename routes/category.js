@@ -4,10 +4,12 @@ const express = require('express');
 const router = express.Router();
 // Require category controller
 const categoryCtrl = require('../controllers/category');
+// Multer
+const upload = require('../config/multerConfig');
 router.use(express.json());
 
 
-router.post('/add', categoryCtrl.category_create_post);
+router.post('/add', upload.single('image'), categoryCtrl.category_create_post);
 router.get('/index', categoryCtrl.category_index_get);
 router.get('/edit', categoryCtrl.category_detail_get);
 router.post('/edit', categoryCtrl.category_edit_post);

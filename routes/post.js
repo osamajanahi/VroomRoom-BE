@@ -4,10 +4,14 @@ const express = require('express');
 const router = express.Router();
 // Require post controller
 const postCtrl = require('../controllers/post');
+// Multer
+const upload = require('../config/multerConfig');
+
+
 
 router.use(express.json());
 
-router.post('/add', postCtrl.post_create_post);
+router.post('/add', upload.array('image',5), postCtrl.post_create_post);
 router.get('/index', postCtrl.post_index_get);
 router.get('/edit', postCtrl.post_detail_get);
 router.post('/edit', postCtrl.post_edit_post);
