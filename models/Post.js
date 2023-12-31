@@ -18,13 +18,13 @@ const postSchema = mongoose.Schema({
         required: true
     },
     image: {
-        type: String,
+        type: [String],
         required: true
     },
-    category: [{
+    category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
-    }],
+    },
 },{
     timestamps: true
 });

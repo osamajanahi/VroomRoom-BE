@@ -8,9 +8,8 @@ router.use(express.json());
 
 
 router.post("/add",  wishlistCtrl.wish_create_post);
-router.delete("/delete", wishlistCtrl.wish_delete_get); // isLoggedIn,
-router.get("/edit", wishlistCtrl.wish_edit_get);
-router.put("/update",wishlistCtrl.wish_update_put);
+router.post("/delete", wishlistCtrl.wish_delete_get); // isLoggedIn,
+router.get("/show", wishlistCtrl.wish_show_get);
 
 
 

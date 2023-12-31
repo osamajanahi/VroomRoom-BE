@@ -22,10 +22,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    wishlist: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Wishlist'
-    }]
+    image: {
+        type: String,
+    }
 },{
     timestamps: true
 });

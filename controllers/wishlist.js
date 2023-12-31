@@ -8,8 +8,14 @@ exports.wish_create_post = (req, res) => {
       wish.forEach(wishlist =>{
         // req.body.user will be input of type hidden in the frontend
         if(wishlist.user == req.body.user){
-          wishlist.post.push(req.body.post);
-          wishlist.save();
+          if(wishlist.post.indexOf(req.body.post) == -1){
+            wishlist.post.push(req.body.post);
+            wishlist.save();
+            res.json(wishlist);
+          }
+          else{
+            res.json(wishlist);
+          }
         }
       })
     })
@@ -20,33 +26,40 @@ exports.wish_create_post = (req, res) => {
 }
   
 exports.wish_delete_get = (req, res) => {
-    console.log(req.query.id);
-    Wishlist.findByIdAndDelete(req.query.id)
-    .then(() => {
-      res.json({Wish})
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+// postId and wishId are hidden from frontend
+  console.log(req.body.postId);
+  console.log(req.body.wishId);
+  Wishlist.findById(req.body.wishId)
+  .then(wish =>{
+    let postIndex = wish.post.indexOf(req.body.postId);
+    if(postIndex != -1){
+      console.log(postIndex)
+      wish.post.splice(postIndex, 1);
+      wish.save();
+      res.json(wish);
+    }
+    else{
+      res.json(wish);
+    }
+  })
+  .catch(err =>{
+    console.log(err);
+  })
+  //
 }
 
-exports.wish_edit_get = (req, res) => {
-    Wishlist.findById(req.query.id)
-    .then((wish) => {
-      res.json({wish})
+exports.wish_show_get = (req, res) => {
+  console.log("init")
+  Wishlist.find()
+  .then(wish =>{
+    wish.forEach(wishlist =>{
+      // req.body.user will be input of type hidden in the frontend
+      if(wishlist.user == req.query.id){
+        res.json(wishlist.post);
+      }
     })
-    .catch(err => {
-      console.log(err);
-    })
-}
-   
-exports.wish_update_put = (req, res) => {
-    console.log(req.body._id);
-    Wishlist.findByIdAndUpdate(req.body._id, req.body, {new: true})
-    .then((wish) => {
-      res.json({wish})
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  })
+  .catch(err => {
+    console.log(err);
+  })
 }
