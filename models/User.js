@@ -21,11 +21,7 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    wishlist: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Wishlist'
-    }]
+    }
 },{
     timestamps: true
 });
