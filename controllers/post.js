@@ -1,4 +1,5 @@
 const {Post} = require('../models/Post');
+const {Category} = require('../models/Category');
 const fs = require("fs");
 const uploadCloudinary = require('../config/cloudinaryConfig');
 
@@ -24,6 +25,7 @@ exports.post_create_post = async (req, res) => {
         post.save()
         .then(newPost =>{
             images.forEach(remove =>{
+                // To remove the image from public/images and store it in cloudinary only
                 fs.unlink(remove, (err) => {
                     if (err) {
                         console.error(err);
@@ -32,7 +34,16 @@ exports.post_create_post = async (req, res) => {
                     }
                     });    
             })
+                Category.findById(req.body.category)
+                .then((category) => {
+                    category.post.push(post);
+                    category.save();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
 
+    
             res.json(newPost)
         })
         })
