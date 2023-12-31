@@ -3,19 +3,20 @@ const fs = require("fs");
 const uploadCloudinary = require('../config/cloudinaryConfig');
 
 
-exports.category_create_post = (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
+exports.category_create_post = async (req, res) => {
+    // console.log(req.file);
+    // console.log(req.body);
     let cate = new Category(req.body);
     if (req.file) {
         let image = `public/images/${req.file.filename}`;
-        console.log(image);
+        // console.log(image);
         uploadCloudinary.upload_single(image)
         .then(imagePath =>{
             console.log(imagePath.url)
             cate.image = imagePath.url;
             cate.save()
             .then(newCate =>{
+                // To remove the image from public/images and store it in cloudinary only
                 fs.unlink(image, (err) => {
                     if (err) {
                         console.error(err);
@@ -23,7 +24,7 @@ exports.category_create_post = (req, res) => {
                         console.log('File is deleted.');
                     }
                     });
-                    res.json(newCate);
+                    res.json({newCate});
             })
             .catch(err =>{
                 console.log(err);
