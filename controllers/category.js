@@ -50,7 +50,7 @@ exports.category_create_post = async (req, res) => {
 exports.category_index_get = (req, res) => {
     Category.find()
     .then((category) => {
-        res.json({ category })
+        res.json( category )
     })
     .catch((err) => {
         console.log(err);

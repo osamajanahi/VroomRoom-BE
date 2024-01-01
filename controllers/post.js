@@ -83,7 +83,7 @@ exports.post_create_post = async (req, res) => {
 }  
 
 exports.post_index_get = (req, res) => {
-    Post.find()
+    Post.find().populate('category')
     .then((post) => {
         res.json({ post })
     })
