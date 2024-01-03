@@ -6,6 +6,8 @@ const uploadCloudinary = require('../config/cloudinaryConfig');
 exports.post_create_post = async (req, res) => {
     let post = new Post(req.body)
     let images;
+    console.log("fffffff")
+    console.log(req)
     if (req.files) {
         images = req.files.map(file => `public/images/${file.filename}`);
     } else {
@@ -51,39 +53,10 @@ exports.post_create_post = async (req, res) => {
             console.log(err)
         })    
 
-    // console.log(req.file);
-    // console.log(req.body);
-    // let post = new Post(req.body);
-    // if (req.file) {
-    //     let image = `public/images/${req.file.filename}`;
-    //     console.log(image);
-    //     uploadCloudinary.upload_single(image)
-    //     .then(imagePath =>{
-    //         console.log(imagePath.url)
-    //         post.image = imagePath.url;
-    //         post.save()
-    //         .then(newPost =>{
-    //             fs.unlink(image, (err) => {
-    //                 if (err) {
-    //                     console.error(err);
-    //                 } else {
-    //                     console.log('File is deleted.');
-    //                 }
-    //                 });
-    //                 res.json(newPost);
-    //         })
-    //         .catch(err =>{
-    //             console.log(err);
-    //         })
-    //     })
-    //     .catch(err =>{
-    //         console.log(err);
-    //     })
-    // }
 }  
 
 exports.post_index_get = (req, res) => {
-    Post.find()
+    Post.find().populate('category')
     .then((post) => {
         res.json({ post })
     })
@@ -93,15 +66,77 @@ exports.post_index_get = (req, res) => {
 
 }
 
-exports.post_edit_post = (req, res) => {
-    console.log(req.body._id);
-    Post.findByIdAndUpdate(req.body._id, req.body, {new: true})
-    .then((post) => {
-        res.json(post);
+exports.get_mypost_get = (req, res) =>{
+    Post.find({user:req.query.user})
+    .then(myPosts =>{
+        res.json(myPosts);
     })
-    .catch(err => {
+    .catch(err =>{
         console.log(err);
     })
+}
+
+exports.post_edit_post = async (req, res) => {
+    console.log(req.body)
+    if(req.files && req.files.length != 0){
+        let images;
+        let pathDb = [];
+        images = req.files.map(file => `public/images/${file.filename}`);
+        await uploadCloudinary.upload_multiple(images)
+        .then((imagesPath) =>{
+            imagesPath.forEach(pathImg =>{
+                console.log(pathImg.url)
+                pathDb.push(pathImg.url);
+            })
+            images.forEach(remove =>{
+                // To remove the image from public/images and store it in cloudinary only
+                fs.unlink(remove, (err) => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.log('File is deleted.');
+                    }
+                    });    
+            })
+            Category.findById(req.body.category)
+            .then((category) => {
+                category.post.push(post);
+                category.save();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            const body = req.body;
+            // console.log(pathDb);
+            body.image = pathDb;
+            console.log(body.image)
+            Post.findByIdAndUpdate(req.body._id, body, {new: true})
+            .then((newPost) => {
+                console.log(newPost)
+                res.json(newPost);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+            });
+        })
+        .catch((err) =>{
+            console.log(err);
+        })    
+    
+    }
+    else{
+        console.log('not image')
+        Post.findByIdAndUpdate(req.body._id, req.body, {new: true})
+        .then((newPost) => {
+            console.log(newPost)
+            res.json(newPost);
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+        } 
+    
 }
 
 exports.post_delete_get = (req, res) => {
@@ -116,7 +151,7 @@ exports.post_delete_get = (req, res) => {
 }
 
 exports.post_detail_get = (req, res) => {
-    Post.findById(req.query.id)
+    Post.findById(req.query.id).populate('category')
     .then((post) => {
         res.json({post})
     })

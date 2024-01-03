@@ -1,5 +1,5 @@
 const {Wishlist} = require('../models/Wishlist');
-
+const {Category} = require('../models/Category')
 
 //restful API
 exports.wish_create_post = (req, res) => {
@@ -49,15 +49,17 @@ exports.wish_delete_get = (req, res) => {
 }
 
 exports.wish_show_get = (req, res) => {
-  console.log("init")
-  Wishlist.find()
+  console.log("**********************",req.query.id);
+  Wishlist.find({user:req.query.id}).populate({path:'post', populate:{path:'category'}})
   .then(wish =>{
-    wish.forEach(wishlist =>{
+    console.log(wish);
+    // wish.forEach(wishlist =>{
       // req.body.user will be input of type hidden in the frontend
-      if(wishlist.user == req.query.id){
-        res.json(wishlist.post);
-      }
-    })
+      // if(wishlist.user == req.query.id){
+        // res.json(wishlist);
+      // }
+      // })
+      res.json({wish});
   })
   .catch(err => {
     console.log(err);
