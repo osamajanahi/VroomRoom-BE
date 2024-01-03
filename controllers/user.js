@@ -17,27 +17,26 @@ exports.user_show_get = (req, res) => {
 }
 
 exports.user_update_post = async (req, res) => {
-    console.log(req.body.id);
+    console.log("this is post",req.body._id);
+    console.log(req.body);
 
   if(req.body.password){
 
     // Create Hashed Password for User
-
     let hash = bcrypt.hashSync(req.body.password, salt);
 
     // Assign user password to the hashed password
     req.body.password = hash;
+    console.log(req.body.password)
+
 }
 if (req.file) {
   let image = `public/images/${req.file.filename}`;
-  uploadCloudinary.upload_single(image)
+  req.body.image = await uploadCloudinary.upload_single(image)
   .then((imagePath) =>{
-      // console.log(imagePath.url)
-      // console.log(req.body)
+      console.log("in")
       const updateFields = {image: imagePath.url};
-      User.findByIdAndUpdate(req.body.id, updateFields)
-      .then((updated) => {
-        // To remove the image from public/images and store it in cloudinary only
+      console.log(imagePath.url)
         fs.unlink(image, (err) => {
           if (err) {
               console.error(err);
@@ -45,27 +44,17 @@ if (req.file) {
               console.log('File is deleted.');
           }
           });
-        res.json({updated});
+          return imagePath.url
       })
       .catch((err) => {
           console.log(err);
           res.status(500).send('Internal Server Error');
-      });        })
-  .catch((err) =>{
-      console.log(err);
-  })    
+      })
 }
-else{
-  User.findByIdAndUpdate(req.body.id, req.body)
+  User.findByIdAndUpdate(req.body._id, req.body, {new: true})
   .then((updated) => {
-    fs.unlink(image, (err) => {
-      if (err) {
-          console.error(err);
-      } else {
-          console.log('File is deleted.');
-      }
-      });
-    res.json({updated});
+    // console.log(updated)
+    res.json(updated);
   })
   .catch((err) => {
       console.log(err);
@@ -80,7 +69,7 @@ else{
 //     .catch(err => {
 //       console.log(err);
 //     })
-}
+
 
 exports.admin_users_get = (req, res) =>{
   User.find()
