@@ -1,6 +1,8 @@
 const { Category } = require('../models/Category');
+const { Post } = require('../models/Post');
 const fs = require("fs");
 const uploadCloudinary = require('../config/cloudinaryConfig');
+
 
 exports.category_create_post = async (req, res) => {
     let category = new Category(req.body);
@@ -94,4 +96,16 @@ exports.category_detail_get = (req, res) => {
         console.log(err);
         res.status(500).send("Error retrieving category details.");
     });
+};
+
+exports.category_posts_get = (req, res) => {
+    const categoryId = req.query.id;
+    Post.find({ category: categoryId })
+        .then(posts => {
+            res.json(posts);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).send("Error fetching posts for the category.");
+        });
 };
