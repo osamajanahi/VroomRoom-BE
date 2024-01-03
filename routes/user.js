@@ -13,6 +13,7 @@ router.get('/profile', userCtrl.user_show_get);
 router.get('/adminUsers', userCtrl.admin_users_get);
 router.post('/adminUpdate', userCtrl.user_update_post);
 router.get('/adminDelete', userCtrl.admin_delete_get);
+router.get('/userType', userCtrl.user_type_get);
 
 
 module.exports = router;
