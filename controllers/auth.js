@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 
 // Signup POST API
 exports.auth_signup_post = (req, res) => {
-
+console.log(req.body);
     let user = new User(req.body);
 
     // Create Hashed Password for User
@@ -23,12 +23,13 @@ exports.auth_signup_post = (req, res) => {
 
     user.save()
     .then( (newUser) => {
-      console.log(newUser._id);
+      console.log(newUser);
       let wishlist = new Wishlist({user: newUser._id});
       wishlist.save();
         res.json({"message": "User Created Successfully!"});
     })
     .catch((err) => {
+      console.log(err);
         res.json({"message": err.message});
     })
 }
