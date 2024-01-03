@@ -66,6 +66,16 @@ exports.post_index_get = (req, res) => {
 
 }
 
+exports.get_mypost_get = (req, res) =>{
+    Post.find({user:req.query.user})
+    .then(myPosts =>{
+        res.json(myPosts);
+    })
+    .catch(err =>{
+        console.log(err);
+    })
+}
+
 exports.post_edit_post = async (req, res) => {
     console.log(req.body)
     if(req.files && req.files.length != 0){

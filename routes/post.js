@@ -17,5 +17,7 @@ router.get('/edit', postCtrl.post_detail_get);
 router.post('/edit', upload.array('image',5), postCtrl.post_edit_post);
 router.get('/delete', postCtrl.post_delete_get);
 router.get('/detail', postCtrl.post_detail_get);
+router.get('/myPost', postCtrl.get_mypost_get);
+
 
 module.exports = router;
