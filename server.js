@@ -3,13 +3,16 @@
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 require('dotenv').config()
-
+const cors = require('cors');
 
 // connect to mongoDB
 require('./config/db')
 
 // initialize express app
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 // get the port number form .env file, if undefined, 3000
 const port = process.env.PORT || 3000

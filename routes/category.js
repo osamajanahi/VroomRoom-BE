@@ -20,4 +20,6 @@ router.post('/edit/:id', upload.single('image'), categoryCtrl.category_edit_post
 
 router.get('/delete', categoryCtrl.category_delete_get);
 
+router.get('/posts', categoryCtrl.category_posts_get);
+
 module.exports = router;
