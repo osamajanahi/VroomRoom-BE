@@ -64,7 +64,8 @@ exports.auth_signin_post = async (req, res) => {
       // Generate JWT
       const payload = {
         user: {
-          id: user._id
+          id: user._id,
+          type: user._type
         }
       }
   
