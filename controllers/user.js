@@ -91,3 +91,14 @@ exports.admin_delete_get = (req, res) =>{
       console.log(err);
   })
 }
+
+exports.user_type_get = (req, res) =>{
+  User.findById(req.query.id)
+  .then((user) => {
+    console.log(req.query.id)
+    res.json({ user });
+})
+.catch((err) => {
+    console.log(err);
+})
+}

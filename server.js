@@ -4,7 +4,7 @@ const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 require('dotenv').config()
 const cors = require('cors');
-
+const path = require('path')
 // connect to mongoDB
 require('./config/db')
 
@@ -22,12 +22,13 @@ const port = process.env.PORT || 3000
 // Templating Engine
 app.set('view engine', 'ejs');
 app.use(expressLayout);
+app.use(express.static(path.join(__dirname, 'public')));
 
 // to encode req.body - make form data readable in controllers
 app.use(express.urlencoded({ extended: true }));
 
 // link you static folder i.e. images, css 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 //-------------------------//
 
 const indexRouter = require("./routes/index");
@@ -49,5 +50,9 @@ app.use('/auth', authRouter);
 
 //-------------------------//
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 // start listening to requests coming from the PORT
 app.listen(port, () => console.log(`Server is running on http://localhost:${port}`))
+

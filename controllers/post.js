@@ -139,6 +139,7 @@ exports.post_edit_post = async (req, res) => {
     
 }
 
+
 exports.post_delete_get = (req, res) => {
     console.log(req.query.id);
     Post.findByIdAndDelete(req.query.id)

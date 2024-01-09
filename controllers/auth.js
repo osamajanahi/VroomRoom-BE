@@ -11,8 +11,9 @@ const jwt = require("jsonwebtoken");
 
 // Signup POST API
 exports.auth_signup_post = (req, res) => {
-console.log(req.body);
 req.body.image = "http://res.cloudinary.com/dbk40zyi7/image/upload/v1704298449/ifneptovukziudhxiqic.jpg"
+req.body.type = "user";
+console.log(req.body);
 
     let user = new User(req.body);
 
@@ -63,7 +64,8 @@ exports.auth_signin_post = async (req, res) => {
       // Generate JWT
       const payload = {
         user: {
-          id: user._id
+          id: user._id,
+          type: user._type
         }
       }
   
